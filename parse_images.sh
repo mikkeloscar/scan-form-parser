@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# remove everything in billeder
+# remove images in billeder
 echo "Cleaning 'billeder'-folder"
-rm billeder/*
+rm billeder/*.jpg
 
 infile=$1
 outfile="tmp.png"
