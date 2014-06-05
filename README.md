@@ -4,6 +4,7 @@ Simple hacked tool to parse scanner-forms for KU id-cards.
 
 ### Dependencies
 
+* python3
 * gocr
 * tesseract
 * Pillow (PIL)
