@@ -2,7 +2,7 @@
 
 Denne guide beskriver hvorledes man kan bruge programmat `scan-form-parser` til
 at konvertere scannerblanketter indskannet som en pdf, til jpg-filer navngivet
-med CPR-nr. og skåret til 200x200 pixels. Programmaet køres gennem en linux
+med CPR-nr. og skåret til 200x200 pixels. Programmet køres gennem en linux
 virtuel maskine, og guiden tager udgangspunkt i den debian vm som er
 installeret på top-idkort-printer-pc'en i kælderen.
 
@@ -55,5 +55,5 @@ kopieres over i den rigtige `billeder`-mappe som normalt.
 
 #
 
-Hvis i finder nogle fejl i scriptet så send info om dem til mig på
-`mikkel.larsen@adm.ku.dk`.
+Hvis i finder nogle fejl i scriptet så send endelig en besked til mig på
+`mikkel.larsen@adm.ku.dk`, så ser jeg på det.
