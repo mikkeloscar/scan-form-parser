@@ -19,7 +19,7 @@ def validate_cpr(cpr):
         if not c.isdigit():
             return None
 
-        return cpr
+    return cpr
 
 
 def ocr(filename):
@@ -51,7 +51,6 @@ def crop(filename, output="billeder"):
 
     try:
         cropped_id.save(id_name)
-        # id_value = ocr(id_name)
         id_value = tesseract(id_name) or ocr(id_name)
 
         if not id_value:
