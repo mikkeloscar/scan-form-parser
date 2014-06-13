@@ -11,16 +11,24 @@ import os
 import subprocess
 import re
 
+def validate_cpr(cpr):
+    if len(cpr) != 10:
+        return None
+
+    for c in cpr:
+        if not c.isdigit():
+            return None
+
+        return cpr
+
+
 def ocr(filename):
     value = subprocess.Popen("gocr -i %s -C '0123456789'" % filename,
                              shell=True,
                              stdout=subprocess.PIPE).stdout.read()
     value = re.sub('[_\n]+', '', value.decode("ascii"))
 
-    if len(value) == 10:
-        return value
-    else:
-        return None
+    return validate_cpr(value)
 
 def tesseract(filename):
     value = subprocess.Popen("./ocr.sh %s" % filename, shell=True,
@@ -30,10 +38,7 @@ def tesseract(filename):
     if extract:
         value = re.sub('[-\n]+', '', extract.group(1))
 
-    if len(value) == 10:
-        return value
-    else:
-        return None
+    return validate_cpr(value)
 
 def crop(filename, output="billeder"):
     image = Image.open(filename)
