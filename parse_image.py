@@ -40,29 +40,52 @@ def tesseract(filename):
 
     return validate_cpr(value)
 
+
+def combine_imgs(img1, img2):
+    blank = Image.new("RGB", (580, 320))
+    blank.paste(img1, (0, 0))
+    blank.paste(img2, (0, 160))
+    return blank
+
 def crop(filename, output="billeder"):
     image = Image.open(filename)
 
+    half = False
+
     # crop ID
     id_box = (1100, 1990, 1680, 2150)
-    cropped_id = image.crop(id_box)
+    id_box_half = (1000, 170, 1680, 330)
 
-    id_name = "tmp-id.png"
+    cropped_id, id_name = crop_size(image, id_box)
 
     try:
         cropped_id.save(id_name)
         id_value = tesseract(id_name) or ocr(id_name)
 
         if not id_value:
-            cropped_id.show()
-            id_value = input("Could not determine CPR\nPlease enter the correct value: ")
+            cropped_id_half, id_name = crop_size(image, id_box_half)
+            cropped_id_half.save(id_name)
+            id_value = tesseract(id_name) or ocr(id_name)
+            if not id_value:
+                combined = combine_imgs(cropped_id, cropped_id_half)
+                combined.show()
+                id_value = input("Could not determine CPR\nPlease enter the correct value: ")
+            else:
+                half = True
         print(id_value)
+        print(sys.argv[1])
     except IOError:
         print("ERROR!!")
 
     # crop ID picture
     img_box = (320, 2400, 736, 2816)
-    cropped_img = image.crop(img_box)
+    img_box_half = (300, 570, 716, 986)
+
+    if half:
+        cropped_img, name = crop_size(image, img_box_half)
+    else:
+        cropped_img, name = crop_size(image, img_box)
+
     # resize ID picture to 200x200
     cropped_img = cropped_img.resize((200, 200))
 
@@ -76,6 +99,12 @@ def crop(filename, output="billeder"):
         os.remove(id_name)
     except IOError:
         print("FAILED")
+
+def crop_size(image, size):
+    cropped = image.crop(size)
+    name = "tmp-cropped.png"
+
+    return (cropped, name)
 
 
 def main():
